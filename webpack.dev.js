@@ -1,16 +1,22 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const fs = require('fs')
+
+const modules = fs.readdirSync('node_modules')
+
+const dist = path.resolve(__dirname, 'dist')
+const src = path.resolve(__dirname, 'src')
 
 module.exports = {
   mode: 'development',
   entry: './src/main.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: dist
   },
   module: {
     rules: [{
-      include: [path.resolve(__dirname, 'src')],
+      include: [src],
       test: /\.js$/
     }, {
       test: /\.css$/,
@@ -29,6 +35,11 @@ module.exports = {
       test: /\.html$/,
       loader: 'html-loader'
     }]
+  },
+  externals: {
+    vue : 'Vue',
+    lodash: '_',
+    jquery: 'jQuery',
   },
   plugins: [
     new HtmlWebpackPlugin({
