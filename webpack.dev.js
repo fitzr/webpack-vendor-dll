@@ -18,7 +18,7 @@ const renames = {
   'element-ui': 'ELEMENT'
 }
 
-let modulePaths = []
+let modulePaths = new Set()
 
 function AddScriptsPlugin(options) {
   // Configure your plugin with options...
@@ -29,8 +29,8 @@ AddScriptsPlugin.prototype.apply = function (compiler) {
     compilation.hooks.htmlWebpackPluginAfterHtmlProcessing.tapAsync(
       'AddScriptsPlugin',
       (data, cb) => {
-        const inject = modulePaths.map(p => `<script src="../node_modules/${p}"></script>`).join('\n')
-        data.html = data.html.replace('</div>', '</div>' + inject)
+        const inject = [...modulePaths].map(p => `<script src="../node_modules/${p}"></script>`).join('\n')
+        data.html = data.html.replace('</div>', '</div>\n' + inject)
         cb(null, data)
       }
     )
@@ -74,7 +74,7 @@ module.exports = {
       const moduleDir = path.resolve(__dirname, 'node_modules', request)
       const pkg = require(path.resolve(moduleDir, 'package.json'))
       const modulePath = path.join(request, pkg.unpkg || pkg.main)
-      modulePaths.push(modulePath)
+      modulePaths.add(modulePath)
       console.log(modulePath)
       return callback(null, renames[request] || request)
     }

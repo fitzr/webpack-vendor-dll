@@ -1,24 +1,18 @@
 <template>
-  <div class='container'>
-    <p>{{ greeting }} World!</p>
-    <el-button type="primary" icon="el-icon-search">Search</el-button>
-    <bar></bar>
-  </div>
+<div class='container'>
+  <p>{{ greeting }} World!</p>
+</div>
 </template>
 
 <script>
 import { head } from 'lodash'
 import $ from 'jquery'
 import moment from 'moment'
-import Bar from './Bar.vue'
 
 export default {
   data: () => ({
     greeting: 'Hello'
   }),
-  components: {
-    Bar
-  },
   created () {
     // use vendor libs
 
@@ -32,11 +26,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.container {
-  font-size: 2em;
-  text-align: center;
-}
-
-</style>
