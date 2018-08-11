@@ -5,6 +5,22 @@ const webpack = require('webpack')
 const dist = path.resolve(__dirname, 'dist')
 const src = path.resolve(__dirname, 'src')
 
+function AddScriptsPlugin(options) {
+}
+
+AddScriptsPlugin.prototype.apply = function (compiler) {
+  compiler.hooks.compilation.tap('AddScriptsPlugin', (compilation) => {
+    compilation.hooks.htmlWebpackPluginAfterHtmlProcessing.tapAsync(
+      'AddScriptsPlugin',
+      (data, cb) => {
+        const inject = '\n<script type="text/javascript" src="./vendor-dll.js"></script>\n'
+        data.html = data.html.replace('</div>', '</div>' + inject)
+        cb(null, data)
+      }
+    )
+  })
+}
+
 module.exports = {
   mode: 'development',
   entry: './src/main.js',
@@ -45,5 +61,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     }),
+    new AddScriptsPlugin()
   ]
 }
