@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.dev.js",
-    "serv": "webpack-serve --config webpack.dev.js",
-    "watch": "webpack --watch --config webpack.dev.js"
+    "build:app": "webpack --config webpack.app.js",
+    "build:vendor-chunk": "webpack --config webpack.vendor-chunk.js",
+    "build:vendor-dll": "webpack --config webpack.vendor-dll.js",
+    "serv": "webpack-serve --config webpack.app.js",
+    "watch": "webpack --watch --config webpack.app.js"
   },
   "repository": {
     "type": "git",
